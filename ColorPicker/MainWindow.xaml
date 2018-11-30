@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ColorPicker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Color Picker" Height="350" Width="525" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <Ellipse x:Name="ColorWheel" DockPanel.Dock="Left" Height="300" Width="300" Margin="5" StrokeThickness="4" MouseMove="ColorWheel_MouseMove">
+            <Ellipse.Fill>
+                <ImageBrush x:Name="ColorImage" ImageSource="Resources/ColorCircle.png"/>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Border DockPanel.Dock="Right" BorderThickness="1" CornerRadius="2" Margin="5" BorderBrush="Black">
+            <StackPanel >
+                <Label>Color Picker</Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label >Hex:</Label>
+                    <TextBox x:Name="txtBxHex" HorizontalAlignment="Stretch" VerticalAlignment="Center"  >#123456</TextBox>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </DockPanel>
 </Window>

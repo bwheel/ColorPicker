@@ -24,5 +24,40 @@ namespace ColorPicker
         {
             InitializeComponent();
         }
+
+        private void ColorWheel_MouseMove(object sender, MouseEventArgs e)
+        {
+            var color = SamplePixelForColor();
+            txtBxHex.Text = $"R:{color.R} G:{color.G} B:{color.B}";
+        }
+
+        private Color SamplePixelForColor()
+        {
+            // Retrieve the coordinate of the mouse position in relation to the supplied image.
+            Point point = Mouse.GetPosition(ColorWheel);
+
+            // Use RenderTargetBitmap to get the visual, in case the image has been transformed.
+            var renderTargetBitmap = new RenderTargetBitmap((int)ColorWheel.ActualWidth,
+                                                            (int)ColorWheel.ActualHeight,
+                                                            96, 96, PixelFormats.Default);
+            renderTargetBitmap.Render(ColorWheel);
+
+            // Make sure that the point is within the dimensions of the image.
+            if ((point.X <= renderTargetBitmap.PixelWidth) && (point.Y <= renderTargetBitmap.PixelHeight))
+            {
+                // Create a cropped image at the supplied point coordinates.
+                var croppedBitmap = new CroppedBitmap(renderTargetBitmap,
+                                                      new Int32Rect((int)point.X, (int)point.Y, 1, 1));
+
+                // Copy the sampled pixel to a byte array.
+                var pixels = new byte[4];
+                croppedBitmap.CopyPixels(pixels, 4, 0);
+
+                // Assign the sampled color to a SolidColorBrush and return as conversion.
+                 return Color.FromArgb(255, pixels[2], pixels[1], pixels[0]);
+            }
+            return Color.FromArgb(255, 0, 0, 0);
+        }
+
     }
 }
