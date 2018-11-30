@@ -20,15 +20,32 @@ namespace ColorPicker
     /// </summary>
     public partial class MainWindow : Window
     {
+        private enum UserState
+        {
+            Nominal,
+            Selecting
+        }
+
+        private UserState currentState = UserState.Nominal;
+
         public MainWindow()
         {
             InitializeComponent();
         }
-
-        private void ColorWheel_MouseMove(object sender, MouseEventArgs e)
+        
+        private void colorChanged(Color color)
         {
-            var color = SamplePixelForColor();
-            txtBxHex.Text = $"R:{color.R} G:{color.G} B:{color.B}";
+            var redDec = color.R.ToString();
+            var redHex = string.Format("{0:X}", color.R);
+            var greenDec = color.G.ToString();
+            var greenHex = string.Format("{0:X}", color.G);
+            var blueDec = color.B.ToString();
+            var blueHex = string.Format("{0:X}", color.B);
+            txtBxHex.Text = $"#{redHex}{greenHex}{blueHex}";
+            txtBxRed.Text = redDec;
+            txtBxGreen.Text = greenDec;
+            txtBxBlue.Text = blueDec;
+            canvasExample.Background = new SolidColorBrush(color);
         }
 
         private Color SamplePixelForColor()
@@ -58,6 +75,27 @@ namespace ColorPicker
             }
             return Color.FromArgb(255, 0, 0, 0);
         }
+        
+        private void ColorWheel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            currentState = UserState.Selecting;
+            var color = SamplePixelForColor();
+            colorChanged(color);
+        }
 
+        private void ColorWheel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(currentState == UserState.Selecting)
+            {
+                var color = SamplePixelForColor();
+
+                colorChanged(color);
+            }
+        }
+
+        private void ColorWheel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            currentState = UserState.Nominal;
+        }
     }
 }

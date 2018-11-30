@@ -5,21 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ColorPicker"
         mc:Ignorable="d"
-        Title="Color Picker" Height="350" Width="525" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        Title="Color Picker" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <Ellipse x:Name="ColorWheel" DockPanel.Dock="Left" Height="300" Width="300" Margin="5" StrokeThickness="4" MouseMove="ColorWheel_MouseMove">
+        <Ellipse x:Name="ColorWheel" DockPanel.Dock="Left" Height="300" Width="300" Margin="5" StrokeThickness="4" MouseMove="ColorWheel_MouseMove" MouseDown="ColorWheel_MouseDown" MouseUp="ColorWheel_MouseUp">
             <Ellipse.Fill>
                 <ImageBrush x:Name="ColorImage" ImageSource="Resources/ColorCircle.png"/>
             </Ellipse.Fill>
         </Ellipse>
-        <Border DockPanel.Dock="Right" BorderThickness="1" CornerRadius="2" Margin="5" BorderBrush="Black">
-            <StackPanel >
-                <Label>Color Picker</Label>
-                <StackPanel Orientation="Horizontal">
-                    <Label >Hex:</Label>
-                    <TextBox x:Name="txtBxHex" HorizontalAlignment="Stretch" VerticalAlignment="Center"  >#123456</TextBox>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+        <DockPanel >
+            <Label DockPanel.Dock="Top">Color Picker</Label>
+
+            <DockPanel DockPanel.Dock="Top">
+                <Label DockPanel.Dock="Left" VerticalAlignment="Center" Margin="5">Hex:</Label>
+                <TextBox x:Name="txtBxHex" VerticalAlignment="Center" Margin="5" Width="Auto" IsEnabled="False"/>
+            </DockPanel>
+
+            <Expander DockPanel.Dock="Top" x:Name="expDetails" Header="Details" Height="149" VerticalAlignment="Top">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label DockPanel.Dock="Left" VerticalAlignment="Center" Margin="5">Red:</Label>
+                        <TextBox x:Name="txtBxRed" VerticalAlignment="Center" Margin="5" Width="Auto" IsEnabled="False"></TextBox>
+                    </DockPanel>
+
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label DockPanel.Dock="Left" VerticalAlignment="Center" Margin="5">Green:</Label>
+                        <TextBox x:Name="txtBxGreen" VerticalAlignment="Center" Margin="5" Width="Auto" IsEnabled="False"></TextBox>
+                    </DockPanel>
+
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label DockPanel.Dock="Left" VerticalAlignment="Center" Margin="5">Blue:</Label>
+                        <TextBox x:Name="txtBxBlue" VerticalAlignment="Center" Margin="5" Width="Auto" IsEnabled="False"></TextBox>
+                    </DockPanel>
+                </DockPanel>
+            </Expander>
+            <DockPanel DockPanel.Dock="Top">
+                <Label DockPanel.Dock="Top">Example</Label>
+                <Border BorderThickness="2" BorderBrush="Black" Margin="5">
+                    <Canvas x:Name="canvasExample" Background="White" ></Canvas>
+                </Border>
+            </DockPanel>
+        </DockPanel>
     </DockPanel>
 </Window>
